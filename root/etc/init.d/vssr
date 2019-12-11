@@ -273,7 +273,7 @@ start_redir() {
 	fi
 
 	local utype=$(uci_get_by_name $UDP_RELAY_SERVER type)
-	if [ "$utype" == "ss" -o "$stype" == "v2ray" ]; then
+	if [ "$utype" == "ss" -o "$utype" == "v2ray" ]; then
 		ucmd="/usr/bin/v2ray/v2ray"
 	elif [ "$utype" == "ssr" ]; then
 		ucmd="/usr/bin/ssr-redir"
@@ -315,7 +315,9 @@ start_redir() {
 			*) ARG_OTA="" ;;
 			esac
 			pid_file="/var/run/ssr-reudp.pid"
-			$ucmd -c $last_config_file $ARG_OTA -U -f /var/run/ssr-reudp.pid >/dev/null 2>&1
+			#echo  $ucmd >> /tmp/vssr.log
+			$ucmd -c $last_config_file $ARG_OTA -U -f /var/run/ssr-reudp.pid >/tmp/vssr.log 2>&1
+			#echo "$(date "+%Y-%m-%d %H:%M:%S") $($sscmd -version | head -1) UDP已启动!" >> /tmp/vssr.log
 		elif [ "$utype" == "ss" -o "$utype" == "v2ray" ]; then
 			$ucmd -config $last_config_file >/dev/null 2>&1 &
 		fi

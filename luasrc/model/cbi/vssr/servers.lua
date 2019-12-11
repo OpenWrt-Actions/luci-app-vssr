@@ -57,6 +57,5 @@ if nixio.fs.access("/usr/bin/kcptun-client") then
 
 end
 
-m:section(SimpleSection).template = "vssr/status2"
 
 return m

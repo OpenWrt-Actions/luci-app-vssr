@@ -79,8 +79,11 @@ function get_servers()
     local uci = luci.model.uci.cursor()
     local server_table = {}
     uci:foreach("vssr", "servers", function(s)
-        s["name"] = s[".name"]
-        table.insert(server_table,s)
+        local e = {}
+        e["name"] = s[".name"]
+        local t1 =luci.sys.exec("ping -c 1 -W 1 %q 2>&1 | grep -o 'time=[0-9]*.[0-9]' | awk -F '=' '{print$2}'"%s["server"])
+        e["t1"] = t1
+        table.insert(server_table,e)
     end)
     luci.http.prepare_content("application/json")
     luci.http.write_json(server_table)
@@ -102,7 +105,7 @@ function change_node()
     if sid ~= "" then
     uci:set("vssr", name, "global_server" , sid)
 	uci:commit("vssr")
-    luci.sys.call("/etc/init.d/vssr restart")
+    luci.sys.call("/usr/bin/ssr-qucikswitch")
     e.status = true
     end
     luci.http.prepare_content("application/json")
@@ -124,7 +127,7 @@ function act_status()
 
     
     -- 检测国外通道
-    http=require("socket.http")
+--[[    http=require("socket.http")
 	http.TIMEOUT = 1
 	result=http.request("http://ip111cn.appspot.com/?z="..math.random(1,100000))
 	if result then
@@ -139,7 +142,7 @@ function act_status()
 	else
 		e.outboard = false
 	end
-	
+	--]]  
 	
 	
 	-- 检测Socks5
