@@ -56,6 +56,6 @@ if nixio.fs.access("/usr/bin/kcptun-client") then
     function o.cfgvalue(...) return Value.cfgvalue(...) or "?" end
 
 end
-
+m:section(SimpleSection).template = "vssr/status2"
 
 return m

@@ -101,7 +101,7 @@
         if (val.name == "<%=self.current%>") {
             $(id).addClass("fast");
         }
-        if (val.flag == undefined || val.flag == "cn") {
+        if (val.flag == undefined) {
             val.flag = "un";
         } else if (val.flag == "tw") {
             val.flag = "cn";
@@ -139,7 +139,7 @@
                 
             }, "json");*/
 
-        check();
+        setTimeout(function() { check(); }, 500);
         function check() {
             $(".host_con").html("");
 

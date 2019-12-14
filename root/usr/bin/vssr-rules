@@ -13,7 +13,7 @@ FWI=$(uci get firewall.vssr.path 2>/dev/null)  # firewall include file
 
 usage() {
 	cat <<-EOF
-		Usage: ssr-rules [options]
+		Usage: vssr-rules [options]
 
 		Valid options are:
 
@@ -45,7 +45,7 @@ EOF
 
 loger() {
 	# 1.alert 2.crit 3.err 4.warn 5.notice 6.info 7.debug
-	logger -st ssr-rules[$$] -p$1 $2
+	logger -st vssr-rules[$$] -p$1 $2
 }
 
 flush_r() {

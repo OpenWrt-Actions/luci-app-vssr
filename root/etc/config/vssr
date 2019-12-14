@@ -2,7 +2,7 @@
 config global
 	option tunnel_forward '8.8.4.4:53'
 	option tunnel_address '0.0.0.0'
-	option run_mode 'gfw'
+	option run_mode 'router'
 	option pdnsd_enable '1'
 	option monitor_enable '1'
 	option global_server 'nil'

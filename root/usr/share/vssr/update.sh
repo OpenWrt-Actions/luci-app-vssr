@@ -14,7 +14,7 @@ fi
 /usr/share/vssr/chinaipset.sh
 
 wget-ssl --no-check-certificate https://cdn.jsdelivr.net/gh/gfwlist/gfwlist/gfwlist.txt -O /tmp/gfw.b64
-/usr/bin/ssr-gfw
+/usr/bin/vssr-gfw
 
 if [ -s "/tmp/gfwnew.txt" ];then
   if ( ! cmp -s /tmp/gfwnew.txt /etc/dnsmasq.ssr/gfw_list.conf );then

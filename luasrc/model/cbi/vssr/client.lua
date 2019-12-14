@@ -92,5 +92,5 @@ o:value("114.114.114.114:53", translate("Oversea Mode DNS-1 (114.114.114.114)"))
 o:value("114.114.115.115:53", translate("Oversea Mode DNS-2 (114.114.115.115)"))
 o:depends("pdnsd_enable", "1")
 
-
+m:section(SimpleSection).template  = "vssr/status2"
 return m

@@ -61,6 +61,20 @@ gen_config_file() {
     sed -i 's/\\//g' $config_file
 
 }
+start_local() {
+	local local_server=$(uci_get_by_type socks5_proxy enable_server)
+	local local_port=$(uci_get_by_type socks5_proxy local_port)
+	local Socks_user=$(uci_get_by_type socks5_proxy Socks_user)
+	local Socks_pass=$(uci_get_by_type socks5_proxy Socks_pass)
+	[ "$local_server" = "0" ] && return 1
+	mkdir -p /var/run /var/etc
+
+	lua /usr/share/vssr/genconfig_v2ray_s.lua "socks" ${local_port} ${Socks_user} ${Socks_pass} >$CONFIG_SOCK5_FILE
+	sed -i 's/\\//g' $config_file
+
+
+	/usr/bin/v2ray/v2ray -config $CONFIG_SOCK5_FILE >/dev/null 2>&1 &
+}
 
 killall -q -9 ssr-redir
 killall -q -9 v2ray
@@ -103,3 +117,4 @@ elif [ "$stype" == "v2ray" -o "$stype" == "ss" ]; then
     $sscmd -config $last_config_file >/dev/null 2>&1 &
     echo "$(date "+%Y-%m-%d %H:%M:%S") $($sscmd -version | head -1) 已启动!" >>/tmp/vssr.log
 fi
+start_local

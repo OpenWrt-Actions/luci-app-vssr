@@ -22,7 +22,7 @@ echo_date() {
 
 Server_Update() {
 	local uci_set="uci -q set $name.$1."
-	local flag=$(/usr/share/$name/getflag.sh $ssr_host)
+	local flag=$(/usr/share/$name/getflag.sh "$ssr_remarks" $ssr_host)
 	${uci_set}grouphashkey="$ssr_grouphashkey"
 	${uci_set}hashkey="$ssr_hashkey"
 	${uci_set}alias="[$ssr_group] $ssr_remarks"

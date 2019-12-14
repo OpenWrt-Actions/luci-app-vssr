@@ -1,4 +1,3 @@
-
 @import url("flag-icon.min.css");
 
 /*!
@@ -260,7 +259,10 @@ https://github.com/pure-css/pure/blob/master/LICENSE.md
     margin: 1rem;
 
 }
-
+.pure-img{
+    max-height: 100%;
+    width: auto;
+}
 .green {
     font-size: 1.25rem;
     color: #2dce89;
@@ -489,8 +491,37 @@ https://github.com/pure-css/pure/blob/master/LICENSE.md
     padding: 0.1rem 0.5rem;
     border-radius: 0.2rem;
 }
+footer.mobile-hide{
+    display: block;
+}
 
 .mar-10 {margin-left: 50px; margin-right: 10px;}
+
+.status-bar{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    box-shadow: 0 0 2rem 0 rgba(136,152,170,.3);
+    color: #525f7f;
+    background: #fff;
+    z-index: 5;
+    box-sizing: border-box;
+}
+
+.status-bar .inner{
+    margin: 1em;
+}
+
+.status-bar .inner .flag{
+    height: 3em;
+    display: block;
+    float: left;
+    margin-right: 1em;
+}
+.status-bar .icon-con{
+    height: 3em;
+    text-align: right;
+}
 
 @media screen and (max-width: 1900px) {
     .pure-u-1-5 {
@@ -538,7 +569,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE.md
         z-index: 1000;
         width: 50px !important;
         height: 50px;
-        bottom: 50px;
+        bottom: 90px;
         right: 5px;
         font-size: 16px;
         border-radius: 50%;
@@ -632,5 +663,18 @@ https://github.com/pure-css/pure/blob/master/LICENSE.md
         height: 100%;
         left: 0;
         top: 0;
+    }
+    .status-bar .pure-u-1-2{
+        width: 50%;
+    }
+    .status-bar .inner .flag{
+        height: 3em;
+        display: block;
+        float: left;
+        margin-right: 1em;
+    }
+    .status-bar .icon-con{
+        height: 2.5em;
+        text-align: right;
     }
 }
