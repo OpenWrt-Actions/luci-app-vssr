@@ -95,7 +95,7 @@
 <script type="text/javascript">
 
     var servers = '<%= self.servers%>';
-    servers = JSON.parse(servers.replace("	",""));
+    servers = JSON.parse(servers.replace(/\t/g,""));
     $.each(servers, function (i, val) {
         var id = '#cbi-<%=self.config%>-' + val.name;
         if (val.name == "<%=self.current%>") {
