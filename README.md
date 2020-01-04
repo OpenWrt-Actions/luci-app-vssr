@@ -18,6 +18,7 @@ a new SSR SS V2ray luci app
 
 8.优化了国旗匹配方法，在部分带有emoji counrty code的节点名称中 优先使用 emoji code 匹配国旗。
 
+9.建议搭配argon theme，能有最好的显示体验。
 新修改插件难免有bug 请不要大惊小怪。欢迎提交bug。
 
 #### Notice
