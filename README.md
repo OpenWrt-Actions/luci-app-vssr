@@ -30,3 +30,7 @@ a new SSR SS V2ray luci app
 
 #### 感谢
 https://github.com/coolsnowwolf/lede
+
+#### My other project
+Argon theme ：https://github.com/jerrykuku/luci-theme-argon
+openwrt-nanopi-r1s-h5 ： https://github.com/jerrykuku/openwrt-nanopi-r1s-h5
