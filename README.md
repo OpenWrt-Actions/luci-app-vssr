@@ -1,6 +1,6 @@
 #### luci-app-vssr
 a new SSR SS V2ray luci app bese luci-app-ssr-plus
-
+只适配最新版 argon主题
 #### Intro
 写在前面：插件改名的原因并非是要另起炉灶，主要是自己想要的功能【视觉体验优先】，和原版略有差异，而且插件体积越来越大，并不适合小ROM机器使用。【无trojan支持】
 
