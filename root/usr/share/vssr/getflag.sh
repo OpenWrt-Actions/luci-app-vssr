@@ -30,10 +30,5 @@ else
             hostip=$(cat /etc/ssr_ip)
         fi
     fi
-    $python -c "import maxminddb;
-    import json;
-    reader = maxminddb.open_database('/usr/share/vssr/GeoLite2-Country.mmdb');
-    aa = reader.get('${hostip}');
-    reader.close();
-    print(aa['country']['iso_code'].lower())"
+    $python -c "import maxminddb;import json;reader = maxminddb.open_database('/usr/share/vssr/GeoLite2-Country.mmdb');aa = reader.get('${hostip}');reader.close();print(aa['country']['iso_code'].lower())"
 fi
