@@ -93,7 +93,6 @@
 </fieldset>
 <!-- /tblsection -->
 <script type="text/javascript">
-
     var servers = '<%= self.servers%>';
     servers = JSON.parse(servers.replace(/\t/g,""));
     $.each(servers, function (i, val) {
@@ -110,7 +109,6 @@
         $(id).find(".type .tp").text(val.type);
         $(id).find(".type").addClass("flag-icon-" + val.flag);
         $(id).find(".alias").text(val.alias);
-
         $(id).attr("server", val.server);
         $(id).attr("server_port", val.server_port);
     });
@@ -134,11 +132,6 @@
             });
     }
     $(document).ready(function () {
-        /*$.get('<%=luci.dispatcher.build_url("admin", "services", "vssr","allserver")%>',
-            function (data) {
-                
-            }, "json");*/
-
         setTimeout(function() { check(); }, 500);
         function check() {
             $(".host_con").html("");
@@ -194,11 +187,6 @@
             check();
             return false;
         });
-
-
-        //转换 emoji
-
-
 
     });
 
