@@ -118,7 +118,7 @@ function change_node()
     if sid ~= "" then
         uci:set("vssr", name, "global_server", sid)
         uci:commit("vssr")
-        luci.sys.call("/usr/bin/vssr-qucikswitch")
+        luci.sys.call("/etc/init.d/vssr restart")
         e.status = true
     end
     luci.http.prepare_content("application/json")
@@ -315,7 +315,7 @@ function check_ip()
 
     result = luci.sys.exec("curl -s https://api.ip.sb/ip")
     if JudgeIPString(result) then
-        local cmd = '/usr/share/vssr/getip.sh '..result
+        local cmd = '/usr/share/vssr/getip.sh ' .. result
         e.outboard = result
         e.outboardip = luci.sys.exec(cmd)
     else
