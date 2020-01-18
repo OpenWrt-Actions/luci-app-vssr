@@ -78,7 +78,7 @@ function get_subscribe()
         end
         luci.sys.call('uci commit vssr')
         luci.sys.call(
-            "nohup /usr/share/vssr/subscribe.sh >/www/check_update.htm 2>/dev/null &")
+            "nohup /usr/bin/lua /usr/share/vssr/subscribe.lua >/www/check_update.htm 2>/dev/null &")
         e.error = 0
     else
         e.error = 1
