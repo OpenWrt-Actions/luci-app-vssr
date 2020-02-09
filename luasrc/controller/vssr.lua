@@ -40,7 +40,9 @@ function index()
 
     entry({"admin", "services", "vssr", "log"}, cbi("vssr/log"), _("Log"), 30).leaf =
         true
-
+    entry({"admin", "services", "vssr", "licence"}, template("vssr/licence"), _("Licence"), 40).leaf =
+        true
+        
     entry({"admin", "services", "vssr", "refresh"}, call("refresh_data")) -- 更新白名单和GFWLIST
     entry({"admin", "services", "vssr", "checkport"}, call("check_port")) -- 检测单个端口并返回Ping
     entry({"admin", "services", "vssr", "run"}, call("act_status")) -- 检测全局服务器状态
