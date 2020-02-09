@@ -437,7 +437,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE.md
 .ssr-button {
     background: none;
     color: #525f7f;
-    padding: 0 0 0 6px;
+    padding: 0 0 0 0;
     height: auto;
     line-height: 1.5em;
 }
@@ -523,7 +523,7 @@ footer.mobile-hide{
     text-align: right;
 }
 
-@media screen and (max-width: 1900px) {
+@media screen and (max-width: 2000px) {
     .pure-u-1-5 {
         width: 25%;
     }

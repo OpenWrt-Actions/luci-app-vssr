@@ -50,8 +50,7 @@ math.randomseed(os.time())
                     json = data.outboardip.replace(/[\r\n]/g,"");
                     json = eval("(" + json + ")");
                     if(json.flag == "tw"){
-                        flag = "cn";
-                        country = "中国"
+                        country = "中国 台湾"
                     }else{
                         flag = json.flag;
                         country = json.country;

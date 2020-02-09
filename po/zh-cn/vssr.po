@@ -608,3 +608,24 @@ msgstr "导入配置信息"
 
 msgid "Configuration Url"
 msgstr "配置链接"
+
+msgid "Open v2ray split-flow"
+msgstr "开启V2ray分流"
+
+msgid "When open v2ray split-flow,your main server must be a v2ray server"
+msgstr "当使用v2ray分流功能时 主服务器必须为V2ray"
+
+msgid "Youtube Proxy"
+msgstr "Youtube 代理"
+
+msgid "TaiWan Video Proxy"
+msgstr "台湾视频服务代理"
+
+msgid "Netflix Proxy"
+msgstr "Netflix 代理"
+
+msgid "Diseny+ Proxy"
+msgstr "Diseny+ 代理"
+
+msgid "Prime Video Proxy"
+msgstr "Prime Video 代理"
