@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-vssr
-PKG_VERSION:=1.04
-PKG_RELEASE:=20200209-1
+PKG_VERSION:=1.05
+PKG_RELEASE:=20200210-1
 
 PKG_CONFIG_DEPENDS:= CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_V2ray \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Server \
@@ -15,7 +15,11 @@ define Package/$(PKG_NAME)/config
 config PACKAGE_$(PKG_NAME)_INCLUDE_V2ray
 	bool "Include V2ray"
 	default y
-	
+
+config PACKAGE_$(PKG_NAME)_INCLUDE_Trojan
+	bool "Include Trojan"
+	default y
+
 config PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Server
 	bool "Include ShadowsocksR Server"
 	default n
@@ -29,10 +33,12 @@ define Package/luci-app-vssr
  	SECTION:=luci
 	CATEGORY:=LuCI
 	SUBMENU:=3. Applications
-	TITLE:=A New SS/SSR/V2Ray LuCI interface
+	TITLE:=A New SS/SSR/V2Ray/Trojan LuCI interface
 	PKGARCH:=all
 	DEPENDS:=+shadowsocksr-libev-alt +ipset +ip-full +iptables-mod-tproxy +dnsmasq-full +coreutils +coreutils-base64 +bash +pdnsd-alt +wget +luasocket +jshn +lua-cjson +coreutils-nohup +python3-maxminddb +curl \
             +PACKAGE_$(PKG_NAME)_INCLUDE_V2ray:v2ray \
+			+PACKAGE_$(PKG_NAME)_INCLUDE_Trojan:trojan \
+			+PACKAGE_$(PKG_NAME)_INCLUDE_Trojan:ipt2socks \
             +PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Server:shadowsocksr-libev-server \
             +PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Socks:shadowsocksr-libev-ssr-local
 endef

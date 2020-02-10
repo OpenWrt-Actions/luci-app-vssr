@@ -67,18 +67,22 @@ o.value = sid
 o = s:option(ListValue, "type", translate("Server Node Type"))
 o:value("ssr", translate("ShadowsocksR"))
 
-if nixio.fs.access("/usr/bin/v2ray/v2ray") then
+if nixio.fs.access("/usr/bin/v2ray/v2ray") or nixio.fs.access("/usr/bin/v2ray") then
     o:value("ss", translate("Shadowsocks New Version"))
     o:value("v2ray", translate("V2Ray"))
 end
+
+if nixio.fs.access("/usr/sbin/trojan") then
+    o:value("trojan", translate("Trojan"))
+end
+
 o.description = translate(
                     "Using incorrect encryption mothod may causes service fail to start")
 
 o = s:option(Value, "alias", translate("Alias(optional)"))
 
 o = s:option(Value, "flag", translate("Country"))
-o.description = translate(
-                    "请自己指定。格式：cn us hk 等")
+o.description = translate("请自己指定。格式：cn us hk 等")
 o.rmempty = true
 
 o = s:option(Value, "server", translate("Server Address"))
@@ -99,6 +103,7 @@ o.password = true
 o.rmempty = true
 o:depends("type", "ssr")
 o:depends("type", "ss")
+o:depends("type", "trojan")
 
 o = s:option(ListValue, "encrypt_method", translate("Encrypt Method"))
 for _, v in ipairs(encrypt_methods) do o:value(v) end
@@ -297,12 +302,14 @@ o.rmempty = true
 o = s:option(Flag, "insecure", translate("allowInsecure"))
 o.rmempty = true
 o:depends("type", "v2ray")
+o:depends("type", "trojan")
 
 -- [[ TLS ]]--
 o = s:option(Flag, "tls", translate("TLS"))
 o.rmempty = true
 o.default = "0"
 o:depends("type", "v2ray")
+o:depends("type", "trojan")
 
 -- [[ Mux ]]--
 o = s:option(Flag, "mux", translate("Mux"))
@@ -321,6 +328,7 @@ o.rmempty = true
 o.default = "0"
 o:depends("type", "ssr")
 o:depends("type", "ss")
+o:depends("type", "trojan")
 
 o = s:option(Flag, "switch_enable", translate("Enable Auto Switch"))
 o.rmempty = false

@@ -629,3 +629,9 @@ msgstr "Diseny+ 代理"
 
 msgid "Prime Video Proxy"
 msgstr "Prime Video 代理"
+
+msgid "adblock settings"
+msgstr "广告屏蔽设置"
+
+msgid "Enable adblock"
+msgstr "开启广告屏蔽"

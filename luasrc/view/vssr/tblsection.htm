@@ -94,7 +94,8 @@
 <!-- /tblsection -->
 <script type="text/javascript">
     var servers = '<%= self.servers%>';
-    servers = JSON.parse(servers.replace(/\t/g,""));
+    var ajaxArray = new Array();
+    servers = JSON.parse(servers.replace(/\t/g, ""));
     $.each(servers, function (i, val) {
         var id = '#cbi-<%=self.config%>-' + val.name;
         if (val.name == "<%=self.current%>") {
@@ -115,6 +116,10 @@
 
     function apply_node(node) {
         $("#cbi-apply-vssr1").show();
+
+        $.each(ajaxArray, function (n,value) {
+            value.abort();
+        })
         $.get('<%=luci.dispatcher.build_url("admin", "services", "vssr","change")%>',
             {
                 set: node
@@ -130,22 +135,23 @@
             });
     }
     $(document).ready(function () {
-        setTimeout(function() { check(); }, 500);
+        setTimeout(function () { check(); }, 500);
         $(".cbi-page-actions").hide();
         function check() {
             $(".host_con").html("");
-
+            ajaxArray = [];
             $(".pure-u-1-5").each(function () {
                 host = $(this).find(".cbi-section-table-row ").attr("server");
                 port = $(this).find(".cbi-section-table-row ").attr("server_port");
-                $(".host_con").text("--ms");
+                $(".host_con").text("");
                 check_port(host, port, this);
             });
         }
 
         function check_port(hosts, ports, target) {
-
-            $.get('<%=luci.dispatcher.build_url("admin", "services", "vssr","checkport")%>',
+            var axhr;
+            $.ajaxSettings.async = true;
+            axhr = $.get('<%=luci.dispatcher.build_url("admin", "services", "vssr","checkport")%>',
                 {
                     host: hosts,
                     port: ports
@@ -180,6 +186,7 @@
                         $(target).find(".host_con").text("Error");
                     }
                 });
+            ajaxArray.push(axhr);
         }
 
         $(".cbi-button-check").click(function () {

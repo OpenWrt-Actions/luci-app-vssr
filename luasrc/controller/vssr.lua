@@ -40,9 +40,9 @@ function index()
 
     entry({"admin", "services", "vssr", "log"}, cbi("vssr/log"), _("Log"), 30).leaf =
         true
-    entry({"admin", "services", "vssr", "licence"}, template("vssr/licence"), _("Licence"), 40).leaf =
-        true
-        
+    entry({"admin", "services", "vssr", "licence"}, template("vssr/licence"),
+          _("Licence"), 40).leaf = true
+
     entry({"admin", "services", "vssr", "refresh"}, call("refresh_data")) -- 更新白名单和GFWLIST
     entry({"admin", "services", "vssr", "checkport"}, call("check_port")) -- 检测单个端口并返回Ping
     entry({"admin", "services", "vssr", "run"}, call("act_status")) -- 检测全局服务器状态
@@ -174,7 +174,7 @@ function refresh_data()
     if set == "gfw_data" then
         if nixio.fs.access("/usr/bin/wget-ssl") then
             refresh_cmd =
-                "wget-ssl --no-check-certificate https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt -O /tmp/gfw.b64"
+                "wget-ssl --no-check-certificate https://cdn.jsdelivr.net/gh/gfwlist/gfwlist/gfwlist.txt -O /tmp/gfw.b64"
         else
             refresh_cmd = "wget -O /tmp/gfw.b64 http://iytc.net/tools/list.b64"
         end
@@ -201,7 +201,7 @@ function refresh_data()
         end
     elseif set == "ip_data" then
         refresh_cmd =
-            'wget -O- \'http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest\'  2>/dev/null| awk -F\\| \'/CN\\|ipv4/ { printf("%s/%d\\n", $4, 32-log($5)/log(2)) }\' > /tmp/china_ssr.txt'
+            "wget -O- 'http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest'  2>/dev/null| awk -F\\| '/CN\\|ipv4/ { printf(\"%s/%d\\n\", $4, 32-log($5)/log(2)) }' > /tmp/china_ssr.txt"
         sret = luci.sys.call(refresh_cmd)
         icount = luci.sys.exec("cat /tmp/china_ssr.txt | wc -l")
         if sret == 0 and tonumber(icount) > 1000 then
@@ -217,14 +217,19 @@ function refresh_data()
         end
         luci.sys.exec("rm -f /tmp/china_ssr.txt ")
     else
+        local need_process = 0
         if nixio.fs.access("/usr/bin/wget-ssl") then
             refresh_cmd =
-                "wget --no-check-certificate -O - https://easylist-downloads.adblockplus.org/easylistchina+easylist.txt | grep ^\\|\\|[^\\*]*\\^$ | sed -e 's:||:address\\=\\/:' -e 's:\\^:/127\\.0\\.0\\.1:' > /tmp/ad.conf"
+                "wget-ssl --no-check-certificate -O - https://easylist-downloads.adblockplus.org/easylistchina+easylist.txt > /tmp/adnew.conf"
+            need_process = 1
         else
             refresh_cmd = "wget -O /tmp/ad.conf http://iytc.net/tools/ad.conf"
         end
         sret = luci.sys.call(refresh_cmd .. " 2>/dev/null")
         if sret == 0 then
+            if need_process == 1 then
+                luci.sys.call("/usr/bin/vssr-ad")
+            end
             icount = luci.sys.exec("cat /tmp/ad.conf | wc -l")
             if tonumber(icount) > 1000 then
                 if nixio.fs.access("/etc/dnsmasq.ssr/ad.conf") then
@@ -233,7 +238,6 @@ function refresh_data()
                 else
                     oldcount = 0
                 end
-
                 if tonumber(icount) ~= tonumber(oldcount) then
                     luci.sys.exec("cp -f /tmp/ad.conf /etc/dnsmasq.ssr/ad.conf")
                     retstring = tostring(math.ceil(tonumber(icount)))
@@ -246,7 +250,7 @@ function refresh_data()
             else
                 retstring = "-1"
             end
-            luci.sys.exec("rm -f /tmp/ad.conf ")
+            luci.sys.exec("rm -f /tmp/ad.conf")
         else
             retstring = "-1"
         end
@@ -316,13 +320,9 @@ function check_ip()
     http.TIMEOUT = 1
 
     result = luci.sys.exec("curl -s https://api.ip.sb/ip")
-    if JudgeIPString(result) then
-        local cmd = '/usr/share/vssr/getip.sh ' .. result
-        e.outboard = result
-        e.outboardip = luci.sys.exec(cmd)
-    else
-        e.outboard = false
-    end
+    local cmd = '/usr/share/vssr/getip.sh ' .. result
+    e.outboard = result
+    e.outboardip = luci.sys.exec(cmd)
 
     -- 检测国内通道
     e.baidu = false
