@@ -1,9 +1,9 @@
-### luci-app-vssr
+## luci-app-vssr
 a new SSR SS V2ray luci app bese luci-app-ssr-plus  
 目前只适配最新版 argon主题 （其他主题下应该也可以用 但显示应该不会很完美）  
 目前Lean最新版本的openwrt 已经可以直接拉取源码到package/lean 下直接进行勾选并编译，由于有部分文件和ssr+ 同文件名所以不能同时编译。  
 
-### 写在前面：
+## 写在前面：
 插件的初衷是优化操作体验和提升视觉感受，所以插件体积会比较大，并不适合小ROM机器使用。【无trojan支持】  
 
 还有些个人的想法，首先这只是个Luci app，说白了就是个GUI控制界面而已,本身并不能决定你设备的性能和节点的速度。  
@@ -12,7 +12,7 @@ a new SSR SS V2ray luci app bese luci-app-ssr-plus
 稳定性的差异来自于你固件的内核，还有ss ssr v2ray 这几个核心插件的稳定性，当然你的节点才是影响稳定性的最大因素。  
 Luci 能决定的只有操作起来是否便利、顺手，还有对几个核心应用功能的适配挖掘而已。
 
-### Update Log 2020-02-10
+## Update Log 2020-02-10
 
 #### New features
 
@@ -26,7 +26,7 @@ Luci 能决定的只有操作起来是否便利、顺手，还有对几个核心
 
 详情见[具体日志](./relnotes.txt)。
 
-### Intro
+## Intro
 
 1. 基于lean ssr+ 全新修改的Vssr（更名为Hello World） 主要做了很多的修改，同时感谢插件原作者所做出的的努力和贡献！ 
 1. 节点列表支持国旗显示 TW节点为五星红旗， 节点列表页面 打开自动ping.  
@@ -39,7 +39,7 @@ Luci 能决定的只有操作起来是否便利、顺手，还有对几个核心
 
 新修改插件难免有bug 请不要大惊小怪。欢迎提交bug。
 
-### How to use
+## How to use
 假设你的lean openwrt（最新版本19.07） 在 lede 目录下
 ```
 git clone https://github.com/jerrykuku/luci-app-vssr.git ~/lede/package/lean/luci-app-vssr
@@ -49,10 +49,10 @@ make menuconfig
 make -j1 V=s
 ```
 
-### 感谢
+## 感谢
 https://github.com/coolsnowwolf/lede
 
-### My other project
+## My other project
 Argon theme ：https://github.com/jerrykuku/luci-theme-argon
 
 openwrt-nanopi-r1s-h5 ： https://github.com/jerrykuku/openwrt-nanopi-r1s-h5
