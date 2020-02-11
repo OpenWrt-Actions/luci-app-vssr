@@ -263,6 +263,10 @@ https://github.com/pure-css/pure/blob/master/LICENSE.md
     max-height: 100%;
     width: auto;
 }
+.pure-imgw{
+    max-width: 100%;
+    height: auto;
+}
 .green {
     font-size: 1.25rem;
     color: #2dce89;
@@ -306,6 +310,9 @@ https://github.com/pure-css/pure/blob/master/LICENSE.md
 }
 .p-in5{
     padding: 8px;
+}
+.flag-icon:before{
+    position: absolute;
 }
 
 .cbi-section-table-row {

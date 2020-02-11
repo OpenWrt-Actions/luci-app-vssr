@@ -17,7 +17,7 @@ uci:foreach("vssr", "global", function(s) name = s[".name"] end)
 
 m = Map(vssr)
 
-m:section(SimpleSection).template = "vssr/status"
+m:section(SimpleSection).template = "vssr/status_top"
 
 -- [[ Servers List ]]--
 s = m:section(TypedSection, "servers")
@@ -38,24 +38,6 @@ function s.create(...)
     end
 end
 
-o = s:option(DummyValue, "type", translate("Type"))
-function o.cfgvalue(...) return Value.cfgvalue(...) or translate("") end
-
-o = s:option(DummyValue, "alias", translate("Alias"))
-function o.cfgvalue(...) return Value.cfgvalue(...) or translate("None") end
-
-o = s:option(DummyValue, "server", translate("Server Address"))
-function o.cfgvalue(...) return Value.cfgvalue(...) or "?" end
-
-o = s:option(DummyValue, "server_port", translate("Server Port"))
-function o.cfgvalue(...) return Value.cfgvalue(...) or "?" end
-
-if nixio.fs.access("/usr/bin/kcptun-client") then
-
-    o = s:option(DummyValue, "kcp_enable", translate("KcpTun"))
-    function o.cfgvalue(...) return Value.cfgvalue(...) or "?" end
-
-end
-m:section(SimpleSection).template = "vssr/status2"
+m:section(SimpleSection).template = "vssr/status_bottom"
 
 return m

@@ -19,19 +19,14 @@
 					else {
 						s.innerHTML = "<font color='green'>" + "<%:Refresh OK!%> " + "<%:Total Records:%>" + rv.ret + "</font>";
 					}
-
-
 				}
-
 				btn.disabled = false;
 				btn.value = '<%:Refresh Data %>';
 			}
 		);
-
 		return false;
 	}
 //]]></script>
-
 
 <input type="button" class="cbi-button cbi-input-reload" value="<%:Refresh Data%> "
 	onclick="return refresh_data(this,'<%=self.option%>')" />

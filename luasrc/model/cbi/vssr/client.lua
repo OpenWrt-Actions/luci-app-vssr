@@ -4,8 +4,6 @@
 
 local m, s, sec, o, kcp_enable
 local vssr = "vssr"
-
-
 local gfwmode=0
 
 if nixio.fs.access("/etc/dnsmasq.ssr/gfw_list.conf") then
@@ -14,11 +12,9 @@ end
 
 local uci = luci.model.uci.cursor()
 
-
-
 m = Map(vssr)
 
-m:section(SimpleSection).template  = "vssr/status"
+m:section(SimpleSection).template  = "vssr/status_top"
 
 local server_table = {}
 local v2ray_table = {}
@@ -53,7 +49,7 @@ end
 table.sort(key_table_v2)
 
 -- [[ Global Setting ]]--
-s = m:section(TypedSection, "global",translate("Basic Settings"))
+s = m:section(TypedSection, "global",translate("Basic Settings [SS(R)|V2ray|Trojan]"))
 s.anonymous = true
 
 o = s:option(ListValue, "global_server", translate("Main Server"))
@@ -148,5 +144,5 @@ o:value("114.114.114.114:53", translate("Oversea Mode DNS-1 (114.114.114.114)"))
 o:value("114.114.115.115:53", translate("Oversea Mode DNS-2 (114.114.115.115)"))
 o:depends("pdnsd_enable", "1")
 
-m:section(SimpleSection).template  = "vssr/status2"
+m:section(SimpleSection).template  = "vssr/status_bottom"
 return m

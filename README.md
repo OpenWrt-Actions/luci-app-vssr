@@ -12,17 +12,21 @@ a new SSR SS V2ray luci app bese luci-app-ssr-plus
 稳定性的差异来自于你固件的内核，还有ss ssr v2ray 这几个核心插件的稳定性，当然你的节点才是影响稳定性的最大因素。  
 Luci 能决定的只有操作起来是否便利、顺手，还有对几个核心应用功能的适配挖掘而已。
 
-### Update Log 2020-02-10
+### Update Log 2020-02-11
 
-#### New features
-
-- NEW: 增加了Trojan支持
-- NEW: 增加了广告屏蔽的功能
+这是一个中期代码精简优化的版本，无新功能，如果当前使用无bug不建议更新。  
 
 #### Updates
 
-- UPD: 更新了gfwlist chinaip 和 ad conf的更新代码。
-- UPD: 当在节点列表应用新的节点时，会先中断所有的ping，以保证切换节点优先。  
+- UPD: 删除了一些不必要的文件。
+- UPD: 优化了部分前端模板的命名。
+- UPD: 优化了大部分的前端界面中的Javascript代码（未来还需要进一步的优化）。
+
+##### Bug fixes
+
+- FIX: 修复了Vmess链接导入时，前端js出错无法获得国家代码的Bug。
+- FIX: 修复了一些文字翻译的错误。
+
 
 详情见[具体日志](./relnotes.txt)。
 

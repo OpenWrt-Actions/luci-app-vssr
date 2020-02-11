@@ -383,8 +383,8 @@ msgstr "通过代理更新"
 msgid "GFW List"
 msgstr "GFW列表"
 
-msgid "Basic Settings"
-msgstr "基本设置（支持SS/SSR/V2RAY）"
+msgid "Basic Settings [SS(R)|V2ray|Trojan]"
+msgstr "基本设置 [SS(R)|V2ray|Trojan]"
 
 msgid "Main Server"
 msgstr "主服务器"
@@ -635,3 +635,6 @@ msgstr "广告屏蔽设置"
 
 msgid "Enable adblock"
 msgstr "开启广告屏蔽"
+
+msgid "Licence"
+msgstr "许可"

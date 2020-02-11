@@ -7,7 +7,7 @@ function index()
 
     if nixio.fs.access("/usr/bin/ssr-redir") then
         entry({"admin", "services", "vssr"},
-              alias("admin", "services", "vssr", "client"), _("vssr"), 10).dependent =
+              alias("admin", "services", "vssr", "client"), _("Hello World"), 10).dependent =
             true -- 首页
         entry({"admin", "services", "vssr", "client"}, cbi("vssr/client"),
               _("SSR Client"), 10).leaf = true -- 基本设置
