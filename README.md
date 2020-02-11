@@ -1,5 +1,6 @@
-### luci-app-vssr
-a new SSR SS V2ray luci app bese luci-app-ssr-plus  
+## luci-app-vssr [Hello World]
+A new SSR SS V2ray Trojan luci app bese luci-app-ssr-plus  
+<b>支持V2ray分流</b>  
 目前只适配最新版 argon主题 （其他主题下应该也可以用 但显示应该不会很完美）  
 目前Lean最新版本的openwrt 已经可以直接拉取源码到package/lean 下直接进行勾选并编译，由于有部分文件和ssr+ 同文件名所以不能同时编译。  
 
