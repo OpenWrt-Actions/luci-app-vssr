@@ -352,6 +352,10 @@ https://github.com/pure-css/pure/blob/master/LICENSE.md
     box-shadow: none;
 }
 
+.cbi-section-table-row.fast .host_con{
+    color: #fff !important;
+}
+
 .host_con.fast {
     color: #6f9a37;
 }
@@ -524,6 +528,9 @@ footer.mobile-hide{
     display: block;
     float: left;
     margin-right: 1em;
+}
+.status-bar .inner .status-info{
+    font-weight: bold;
 }
 .status-bar .icon-con{
     height: 3em;

@@ -1,6 +1,6 @@
 <script type="text/javascript" src="/luci-static/vssr/emoji.js"></script>
 <fieldset class="cbi-section" id="cbi-apply-vssr1" style="display: none;">
-    <span class="panel-title">正在应用更改</span>
+    <span class="panel-title">正在切换节点</span>
     <img src="/luci-static/resources/icons/loading.gif" alt="载入中" style="vertical-align:middle">
 </fieldset>
 <!-- tblsection -->
@@ -112,7 +112,15 @@
 
     //转换节点名称的Emoji显示
     $(".alias").emoji();
-
+    //适配方框的大小
+    $(".flag-icon").each(function(index,el){
+        if($(el).height <60){
+            $(el).parent.height(60);
+            $(el).width(60)
+        }else{
+            $(el).width($(el).height());
+        }
+    });
     //切换节点
     function apply_node(node) {
         $("#cbi-apply-vssr1").show(); //显示应用中

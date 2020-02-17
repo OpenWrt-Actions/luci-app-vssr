@@ -28,12 +28,20 @@
         lw = $(".main-left").width()
         $(".status-bar").width(wW - lw);
         $(".status-bar .flag").width($(".status-bar .flag").height() / 3 * 4);
+
+        $(".flag-icon").each(function (index, el) {
+            if ($(el).height < 60) {
+                $(el).parent.height(60);
+                $(el).width(60)
+            } else {
+                $(el).width($(el).height());
+            }
+        });
     }
 
     function wirte_status(data) {
         if (data.outboard) {
-            json = data.outboardip.replace(/[\r\n]/g, "");
-            json = eval("(" + json + ")");
+            json = data.outboardip;
             country = (json.flag == "tw") ? "中国 台湾" : json.country;
             $(".flag img").attr("src", VSSR_ASSETS + "flags/4x3/" + json.flag + ".svg");
             $(".status-info").html(data.outboard + "<br>" + country);

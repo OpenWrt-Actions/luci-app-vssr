@@ -110,15 +110,6 @@ local function processData(szType, content)
               
 	result.hashkey = type(content) == 'string' and md5(content) or md5(jsonStringify(content))
                            
-        
-                                                 
-       
-                         
-                                                             
-                         
-                          
-                           
-       
 	if szType == 'ssr' then
 		local dat = split(content, "/\\?")
 		local hostInfo = split(dat[1], ':')

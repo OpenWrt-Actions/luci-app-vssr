@@ -1,6 +1,6 @@
 #!/bin/bash
 # Copyright (C) 2019 Jerryk <jerrykuku@qq.com>
-python=python3
+lua=/usr/bin/lua
 name="$1"
 host=$2
 code=''
@@ -30,5 +30,5 @@ else
             hostip=$(cat /etc/ssr_ip)
         fi
     fi
-    $python -c "import maxminddb;import json;reader = maxminddb.open_database('/usr/share/vssr/GeoLite2-Country.mmdb');aa = reader.get('${hostip}');reader.close();print(aa['country']['iso_code'].lower())"
+    lua /usr/share/vssr/iso_code.lua $hostip
 fi

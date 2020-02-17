@@ -1,11 +1,11 @@
 ## luci-app-vssr [Hello World]
 A new SSR SS V2ray Trojan luci app bese luci-app-ssr-plus  
 <b>支持V2ray分流</b>  
-目前只适配最新版 argon主题 （其他主题下应该也可以用 但显示应该不会很完美）  
+目前只适配最新版 argon主题 （其他主题下应该也可以用 但显示应该不会很完美）
 目前Lean最新版本的openwrt 已经可以直接拉取源码到package/lean 下直接进行勾选并编译，由于有部分文件和ssr+ 同文件名所以不能同时编译。  
 
 ### 写在前面：
-插件的初衷是优化操作体验和提升视觉感受，所以插件体积会比较大，并不适合小ROM机器使用。【无trojan支持】  
+插件的初衷是优化操作体验和提升视觉感受，所以插件体积会比较大，并不适合小ROM机器使用。
 
 还有些个人的想法，首先这只是个Luci app，说白了就是个GUI控制界面而已,本身并不能决定你设备的性能和节点的速度。  
 决定你性能的东西是你的硬件方案 如cpu性能，是否支持硬件aes加速，还有就是几个主核心应用程序的版本。  
@@ -13,23 +13,22 @@ A new SSR SS V2ray Trojan luci app bese luci-app-ssr-plus
 稳定性的差异来自于你固件的内核，还有ss ssr v2ray 这几个核心插件的稳定性，当然你的节点才是影响稳定性的最大因素。  
 Luci 能决定的只有操作起来是否便利、顺手，还有对几个核心应用功能的适配挖掘而已。
 
-### Update Log 2020-02-11
+### Update Log 2020-02-17
 
-这是一个中期代码精简优化的版本，无新功能，如果当前使用无bug不建议更新。  
+这是依然一个中期代码精简优化的版本，无新功能，如果当前使用无bug不建议更新。  
 
-#### Updates
+#### Updates  
 
-- UPD: 删除了一些不必要的文件。
-- UPD: 优化了部分前端模板的命名。
-- UPD: 优化了大部分的前端界面中的Javascript代码（未来还需要进一步的优化）。
+- UPD: 使用lua-maxminddb(18k) 库 取代 pyhton-maxminddb(20k) 同时也不再需要依赖 pyhton-base(1.07Mb) 和python-light(1.61Mb) 大幅度减少固件体积，同时解析速度得到大幅提升。  
+- UPD: 优化了节点列表的一些显示问题。  
+- UPD: 优化了部分获取国旗部分的代码。  
+- UPD: 删除一些不必要的国家的国旗，进一步节省空间。  
 
-#### Bug fixes
+#### Bug fixes  
 
-- FIX: 修复了Vmess链接导入时，前端js出错无法获得国家代码的Bug。
-- FIX: 修复了一些文字翻译的错误。
+- FIX: 修复了使用GFW 模式时无法正确获取代理IP的问题  
 
-
-详情见[具体日志](./relnotes.txt)。
+详情见[具体日志](./relnotes.txt)。 
 
 ### Intro
 
@@ -47,7 +46,11 @@ Luci 能决定的只有操作起来是否便利、顺手，还有对几个核心
 ### How to use
 假设你的lean openwrt（最新版本19.07） 在 lede 目录下
 ```
-git clone https://github.com/jerrykuku/luci-app-vssr.git ~/lede/package/lean/luci-app-vssr
+cd lede/package/lean/  
+
+git clone https://github.com/jerrykuku/lua-maxminddb.git  #git lua-maxminddb 依赖
+
+git clone https://github.com/jerrykuku/luci-app-vssr.git  
 
 make menuconfig
 
