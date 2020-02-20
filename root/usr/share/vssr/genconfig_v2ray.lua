@@ -109,14 +109,10 @@ local tw_video_rule = {
 local netflix_rule = {
     type = "field",
     domain = {
-        "netflix.com", "netflix.net", "nflxso.net", "nflxext.com",
+        "netflix",  "nflxso.net", "nflxext.com",
         "nflximg.com", "nflximg.net", "nflxvideo.net"
     },
-    ip = {
-        "23.246.0.0/12", "37.77.0.0/12", "45.57.0.0/12", "64.120.128.0/17",
-        "66.197.128.0/17", "108.175.0.0/12", "185.2.0.0/12", "185.9.188.0/22",
-        "192.173.64.0/18", "198.38.0.0/12", "198.45.0.0/12"
-    },
+    
     outboundTag = "netflix"
 }
 
@@ -160,6 +156,7 @@ end
 local v2ray = {
     log = {
         -- error = "/var/ssrplus.log",
+        -- access = "/var/v2rays.log", 
         loglevel = "warning"
     },
     -- 传入连接
@@ -175,6 +172,5 @@ local v2ray = {
     -- 传出连接
     outbounds = outbounds_table,
     routing = {domainStrategy = "IPIfNonMatch", rules = rules_table}
-
 }
 print(json.stringify(v2ray, 1))

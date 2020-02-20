@@ -51,6 +51,7 @@ function index()
     entry({"admin", "services", "vssr", "subscribe"}, call("get_subscribe")) -- 执行订阅
     entry({"admin", "services", "vssr", "flag"}, call("get_flag")) -- 获取节点国旗 iso code
     entry({"admin", "services", "vssr", "ip"}, call("check_ip")) -- 获取ip情况
+    entry({"admin", "services", "vssr", "switch"}, call("switch")) -- 设置节点为自动切换
 end
 
 -- 执行订阅
@@ -123,6 +124,25 @@ function change_node()
         luci.sys.call("/etc/init.d/vssr restart")
         e.status = true
     end
+    luci.http.prepare_content("application/json")
+    luci.http.write_json(e)
+end
+
+--设置节点为自动切换
+function switch()
+    local e = {}
+    local uci = luci.model.uci.cursor()
+    local sid = luci.http.formvalue("node")
+    local isSwitch = uci:get("vssr", sid, "switch_enable")
+    if isSwitch == "1" then
+        uci:set("vssr", sid, "switch_enable","0")
+        e.switch = false
+    else
+        uci:set("vssr", sid, "switch_enable","1")
+        e.switch = true
+    end
+    uci:commit("vssr")
+    e.status = true
     luci.http.prepare_content("application/json")
     luci.http.write_json(e)
 end

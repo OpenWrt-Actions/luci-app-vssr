@@ -405,6 +405,12 @@ https://github.com/pure-css/pure/blob/master/LICENSE.md
 .alias{
     margin-bottom:1px;
 }
+.incon{
+    cursor: pointer;
+}
+.incon .pure-imgw{
+    transition: all 0.2s;
+}
 .incon:nth-child(2) {
     position: absolute;
     left: 0;

@@ -100,7 +100,7 @@ o.write = function()
     uci:commit("vssr")
     luci.sys.call("/etc/init.d/vssr stop")
     luci.http.redirect(luci.dispatcher.build_url("admin", "services", "vssr",
-                                                 "servers"))
+                                                 "advanced"))
 end
 
 -- [[ adblock ]]--

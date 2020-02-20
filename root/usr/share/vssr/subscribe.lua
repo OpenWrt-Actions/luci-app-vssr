@@ -21,6 +21,7 @@ local name = 'vssr'
 local uciType = 'servers'
 local ucic = luci.model.uci.cursor()
 local proxy = ucic:get_first(name, 'server_subscribe', 'proxy', '0')
+local switch = '0'
 local subscribe_url = ucic:get_first(name, 'server_subscribe', 'subscribe_url', {})
 
 local log = function(...)
@@ -31,7 +32,7 @@ local function split(full, sep)
 	full = full:gsub("%z", "")  -- 这里不是很清楚 有时候结尾带个\0
 	local off, result = 1, {}
 	while true do
-		local nEnd = full:find(sep, off)
+		local nStart, nEnd = full:find(sep, off)
 		if not nEnd then
 			local res = ssub(full, off, slen(full))
 			if #res > 0 then -- 过滤掉 \0
@@ -39,8 +40,8 @@ local function split(full, sep)
 			end
 			break
 		else
-			tinsert(result, ssub(full, off, nEnd - 1))
-			off = nEnd + slen(sep)
+			tinsert(result, ssub(full, off, nStart - 1))
+			off = nEnd + 1
 		end
 	end
 	return result
@@ -81,12 +82,10 @@ local function base64Decode(text)
 	local raw = text
 	if not text then return '' end
 	text = text:gsub("%z", "")
-                
 	text = text:gsub("_", "/")
 	text = text:gsub("-", "+")
 	local mod4 = #text % 4
 	text = text .. string.sub('====', mod4 + 1)
-       
 	local result = b64decode(text)
 	if result then
 		return result:gsub("%z", "")
@@ -97,21 +96,18 @@ end
 -- 处理数据
 local function processData(szType, content)
 	local result = {
-		auth_enable = '0',
-		switch_enable = '1',
+-- 		auth_enable = '0',
+-- 		switch_enable = '1',
 		type = szType,
 		local_port = 1234,
-		timeout = 60, -- 不太确定 好像是死的
-		fast_open = 0,
-		kcp_enable = 0,
-		kcp_port = 0,
+-- 		timeout = 60, -- 不太确定 好像是死的
+-- 		fast_open = 0,
+-- 		kcp_enable = 0,
+-- 		kcp_port = 0,
 		kcp_param = '--nocomp'
 	}
-              
-	result.hashkey = type(content) == 'string' and md5(content) or md5(jsonStringify(content))
-                           
 	if szType == 'ssr' then
-		local dat = split(content, "/\\?")
+		local dat = split(content, "/%?")
 		local hostInfo = split(dat[1], ':')
 		result.server = hostInfo[1]
 		result.server_port = hostInfo[2]
@@ -124,7 +120,7 @@ local function processData(szType, content)
 			local t = split(v, '=')
 			params[t[1]] = t[2]
 		end
-		result.obfs_param = base64Decode(params.bfsparam)
+		result.obfs_param = base64Decode(params.obfsparam)
 		result.protocol_param = base64Decode(params.protoparam)
 		local group = base64Decode(params.group)
 		if group then
@@ -136,13 +132,12 @@ local function processData(szType, content)
 		result.type = 'v2ray'
 		result.server = info.add
 		result.server_port = info.port
-                                 
 		result.transport = info.net
 		result.alter_id = info.aid
 		result.vmess_id = info.id
 		result.alias = info.ps
-		result.mux = 1
-		result.concurrency = 8
+-- 		result.mux = 1
+-- 		result.concurrency = 8
 		if info.net == 'ws' then
 			result.ws_host = info.host
 			result.ws_path = info.path
@@ -170,8 +165,8 @@ local function processData(szType, content)
 			result.quic_key = info.key
 			result.quic_security = info.securty
 		end
-		if not info.security then
-			result.security = "auto"
+		if info.security then
+			result.security = info.security
 		end
 		if info.tls == "tls" or info.tls == "1" then
 			result.tls = "1"
@@ -179,7 +174,6 @@ local function processData(szType, content)
 		else
 			result.tls = "0"
 		end
-        
 	elseif szType == "ss" then
 		local idx_sp = 0
 		local alias = ""
@@ -196,36 +190,54 @@ local function processData(szType, content)
 		result.alias = UrlDecode(alias)
 		result.type = "ss"
 		result.server = host[1]
-		if host[2]:find("/\\?") then
-			local query = split(host[2], "/\\?")
+		if host[2]:find("/%?") then
+			local query = split(host[2], "/%?")
 			result.server_port = query[1]
-			-- local params = {}
-			-- for _, v in pairs(split(query[2], '&')) do
-			--   local t = split(v, '=')
-			--   params[t[1]] = t[2]
-			-- end
-			-- 这里似乎没什么用 我看数据结构没有写插件的支持 先抛弃
+			local params = {}
+			for _, v in pairs(split(query[2], '&')) do
+				local t = split(v, '=')
+				params[t[1]] = t[2]
+			end
+			if params.plugin then
+				local plugin_info = UrlDecode(params.plugin)
+				local idx_pn = plugin_info:find(";")
+				if idx_pn then
+					result.plugin = plugin_info:sub(1, idx_pn - 1)
+					result.plugin_opts = plugin_info:sub(idx_pn + 1, #plugin_info)
+				else
+					result.plugin = plugin_info
+				end
+			end
 		else
 			result.server_port = host[2]
 		end
 		result.encrypt_method_ss = method
 		result.password = password
-        
 	elseif szType == "ssd" then
 		result.type = "ss"
 		result.server = content.server
 		result.server_port = content.port
 		result.password = content.password
 		result.encrypt_method_ss = content.encryption
+		result.plugin = content.plugin
+		result.plugin_opts = content.plugin_options
 		result.alias = "[" .. content.airport .. "] " .. content.remarks
 	end
 	if not result.alias then
 		result.alias = result.server .. ':' .. result.server_port
 	end
+	-- alias 不参与 hashkey 计算
+	local alias = result.alias
+	result.alias = nil
+	local switch_enable = result.switch_enable
+	result.switch_enable = nil
+	result.hashkey = md5(jsonStringify(result))
+	result.alias = alias
+	result.switch_enable = switch_enable
     
     local flag =  luci.sys.exec('/usr/share/'..name..'/getflag.sh "'..result.alias..'" '..result.server)
-     result.flag = string.gsub(flag, '\n', '')
-     
+    result.flag = string.gsub(flag, '\n', '')
+    
 	return result
 end
 -- wget
@@ -237,7 +249,6 @@ end
 local execute = function()
 	-- exec
 	do
-                                                      
 		if proxy == '0' then -- 不使用代理更新的话先暂停
 			log('服务正在暂停')
 			luci.sys.init.stop(name)
@@ -274,7 +285,6 @@ local execute = function()
 				end
 				for _, v in ipairs(nodes) do
 					if v then
-                                   
 						local result
 						if szType == 'ssd' then
 							result = processData(szType, v)
@@ -331,12 +341,15 @@ local execute = function()
 			else
 				log('忽略手动添加的节点: ' .. old.alias)
 			end
+		
 		end)
+				
 		for k, v in ipairs(nodeResult) do
 			for kk, vv in ipairs(v) do
 				if not vv._ignore then
 					local section = ucic:add(name, uciType)
 					ucic:tset(name, section, vv)
+					ucic:set(name, section, "switch_enable", switch)
 					add = add + 1
 				end
 
@@ -359,8 +372,8 @@ local execute = function()
 			luci.sys.call("/etc/init.d/" .. name .. " stop > /dev/null 2>&1 &") -- 不加&的话日志会出现的更早
 		end
 		log('新增节点数量: ' ..add, '删除节点数量: ' .. del)
-        log("END SUBSCRIBE")                    
 		log('更新成功服务正在启动')
+        log("END SUBSCRIBE")  
 	end
 end
 
@@ -368,8 +381,8 @@ if subscribe_url and #subscribe_url > 0 then
 	xpcall(execute, function(e)
 		log(e)
 		log(debug.traceback())
-        log("END SUBSCRIBE")
 		log('发生错误, 正在恢复服务')
+        log("END SUBSCRIBE")
 		local firstServer = ucic:get_first(name, uciType)
 		if firstServer then
 			luci.sys.call("/etc/init.d/" .. name .." restart > /dev/null 2>&1 &") -- 不加&的话日志会出现的更早

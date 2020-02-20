@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-vssr
-PKG_VERSION:=1.06
-PKG_RELEASE:=20200217-1
+PKG_VERSION:=1.07
+PKG_RELEASE:=20200220-2
 
 PKG_CONFIG_DEPENDS:= CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_V2ray \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Server \
@@ -67,7 +67,8 @@ define Package/luci-app-vssr/postinst
 #!/bin/sh
 if [ -z "$${IPKG_INSTROOT}" ]; then
 	( . /etc/uci-defaults/luci-vssr ) && rm -f /etc/uci-defaults/luci-vssr
-	rm -f /tmp/luci-indexcache
+	rm -rf /tmp/luci-indexcache
+	rm -rf /tmp/luci-modulecache/*
 	chmod 755 /etc/init.d/vssr >/dev/null 2>&1
 	/etc/init.d/vssr enable >/dev/null 2>&1
 fi

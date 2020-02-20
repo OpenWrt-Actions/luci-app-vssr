@@ -21,8 +21,8 @@
             <div class="pure-u-1-5">
                 <div class="cbi-section-table-row " id="cbi-<%=self.config%>-<%=section%>">
                     <div class="loadings hide"></div>
-                    <div class="incon type flag-icon <%=self.flag%>">
-                        <img class="pure-imgw" src="/luci-static/vssr/img/tr.png">
+                    <div class="incon type flag-icon <%=self.flag%>" data-setction="<%=section%>">
+                        <img class="pure-imgw hidden" src="/luci-static/vssr/img/switch.png">
                         <div class="tp"></div>
                     </div>
                     <div class="incon alias"></div>
@@ -92,6 +92,7 @@
     const CURRENT = '<%=self.current%>';
     const CHANGE_NODE_URL = '<%=luci.dispatcher.build_url("admin", "services", "vssr","change")%>';
     const CHECK_PING_URL = '<%=luci.dispatcher.build_url("admin", "services", "vssr","checkport")%>';
+    const SWITCH_NODE_URL = '<%=luci.dispatcher.build_url("admin", "services", "vssr","switch")%>';
 
     var servers = JSON.parse('<%= self.servers%>'.replace(/\t/g, ""));
     var ajaxArray = new Array();
@@ -108,16 +109,21 @@
         $(id).find(".alias").text(val.alias);
         $(id).attr("server", val.server);
         $(id).attr("server_port", val.server_port);
+        if (val.switch_enable == "1") {
+            $(id).find(".pure-imgw").removeClass("hidden");
+        } else {
+            $(id).find(".pure-imgw").addClass("hidden");
+        }
     });
 
     //转换节点名称的Emoji显示
     $(".alias").emoji();
     //适配方框的大小
-    $(".flag-icon").each(function(index,el){
-        if($(el).height <60){
+    $(".flag-icon").each(function (index, el) {
+        if ($(el).height < 60) {
             $(el).parent.height(60);
             $(el).width(60)
-        }else{
+        } else {
             $(el).width($(el).height());
         }
     });
@@ -135,6 +141,24 @@
                 }
             });
     }
+
+    //设定自动切换台
+    $(".incon").click(function () {
+        $.each(ajaxArray, function (n, value) { value.abort(); }) //中断所有的ajax请求
+        $node_switch_icon = $(this).find(".pure-imgw");
+        $node_target = $(this).attr("data-setction");
+        $.post(SWITCH_NODE_URL, { node: $node_target }, function (data) {
+            if(data.status){
+                if(data.switch){
+                    $node_switch_icon.removeClass("hidden");
+                }else{
+                    $node_switch_icon.addClass("hidden");
+                }
+            }else{
+                alert("请求出错！")
+            }
+        }, "json");
+    })
 
     //检测所有节点延迟
     function check() {
