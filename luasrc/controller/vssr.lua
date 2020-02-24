@@ -160,24 +160,6 @@ function act_status()
     e.game = luci.sys.call(
                  "busybox ps -w | grep vssr_u | grep -v grep >/dev/null") == 0
 
-    -- 检测国外通道
-    --[[    http=require("socket.http")
-	http.TIMEOUT = 1
-	result=http.request("http://ip111cn.appspot.com/?z="..math.random(1,100000))
-	if result then
-		e.google = result
-	else
-		e.google = false
-	end
-	
-	result1=http.request("http://45.32.164.128/ip.php?z="..math.random(1,100000))
-	if result1 then
-		e.outboard = result1
-	else
-		e.outboard = false
-	end
-	--]]
-
     -- 检测Socks5
     e.socks5 = luci.sys.call(
                    "busybox ps -w | grep vssr_s | grep -v grep >/dev/null") == 0
@@ -282,13 +264,31 @@ end
 -- 检测单个节点状态并返回连接速度
 function check_port()
 
-    local e = {}
-    -- e.index=luci.http.formvalue("host")
-    local t1 = luci.sys.exec(
-                   "ping -c 1 -W 1 %q 2>&1 | grep -o 'time=[0-9]*.[0-9]' | awk -F '=' '{print$2}'" %
-                       luci.http.formvalue("host"))
+    local sockets = require "socket"
+    local set = luci.http.formvalue("host")
+    local port = luci.http.formvalue("port")
+    local retstring = ""
+    local iret = 1
+    iret = luci.sys.call(" ipset add ss_spec_wan_ac " .. set .. " 2>/dev/null")
+    socket = nixio.socket("inet", "stream")
+    socket:setopt("socket", "rcvtimeo", 2)
+    socket:setopt("socket", "sndtimeo", 2)
+    local t0 = sockets.gettime()
+    ret = socket:connect(set, port)
+    socket:close()
+    local t1 = sockets.gettime()
+    if tostring(ret) == "true" then
+        retstring = "1"
+    else
+        retstring = "0"
+    end
+    if iret == 0 then
+        luci.sys.call(" ipset del ss_spec_wan_ac " .. set)
+    end
+    
+    local tt = t1 - t0
     luci.http.prepare_content("application/json")
-    luci.http.write_json({ret = 1, used = t1})
+    luci.http.write_json({ret = retstring , used = math.floor(tt*1000 + 0.5)})
 
 end
 
