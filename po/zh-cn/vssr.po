@@ -539,6 +539,9 @@ msgstr "密码"
 msgid "Enable Servers"
 msgstr "开启服务"
 
+msgid "Enable Auth"
+msgstr "开启验证"
+
 msgid "Subscribing,Please do not refresh!"
 msgstr "请勿刷新本页面，正在订阅中 ..."
 

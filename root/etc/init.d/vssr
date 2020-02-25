@@ -310,8 +310,10 @@ start_redir() {
 		echo "$(date "+%Y-%m-%d %H:%M:%S") $($sscmd -version | head -1) 已启动!" >>/tmp/vssr.log
 
 	elif [ "$stype" == "trojan" ]; then
-		$sscmd -c $last_config_file >/dev/null 2>&1 &
-		echo "$(date "+%Y-%m-%d %H:%M:%S") $($sscmd -V 2>&1 | head -1)  已启动!" >>/tmp/vssr.log
+		for i in $(seq 1 $threads); do
+			$sscmd -c $last_config_file >/dev/null 2>&1 &
+		done
+		echo "$(date "+%Y-%m-%d %H:%M:%S") $($sscmd -V 2>&1 | head -1) $threads 线程 已启动!" >>/tmp/vssr.log
 	fi
 
 	#转发UDP
@@ -438,13 +440,11 @@ start_server() {
 
 start_local() {
 	local local_server=$(uci_get_by_type socks5_proxy enable_server)
-	local local_port=$(uci_get_by_type socks5_proxy local_port)
-	local Socks_user=$(uci_get_by_type socks5_proxy Socks_user)
-	local Socks_pass=$(uci_get_by_type socks5_proxy Socks_pass)
+
 	[ "$local_server" = "0" ] && return 1
 	mkdir -p /var/run /var/etc
 
-	lua /usr/share/vssr/genconfig_v2ray_s.lua "socks" ${local_port} ${Socks_user} ${Socks_pass} >$CONFIG_SOCK5_FILE
+	lua /usr/share/vssr/genconfig_v2ray_s.lua  >$CONFIG_SOCK5_FILE
 	sed -i 's/\\//g' $config_file
 
 	/usr/bin/v2ray/v2ray -config $CONFIG_SOCK5_FILE >/dev/null 2>&1 &
