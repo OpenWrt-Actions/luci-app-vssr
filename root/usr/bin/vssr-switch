@@ -34,19 +34,24 @@ CURRENT_SERVER=$DEFAULT_SERVER
 
 #判断代理是否正常
 check_proxy() {
-  /usr/bin/ssr-check www.google.com 80 $switch_time 1
-  if [ "$?" == "0" ]; then
-    return 0
-  else
-    /usr/bin/ssr-check www.baidu.com 80 $switch_time 1
+  local result=0
+  local try_count=$(uci_get_by_type global switch_try_count 3)
+  for i in $(seq 1 $try_count); do
+    /usr/bin/ssr-check www.google.com 80 $switch_time 1
     if [ "$?" == "0" ]; then
-      #goole不通baidu通则不正常
-      return 1
+      result=0
+      break
     else
-      return 2
+      /usr/bin/ssr-check www.baidu.com 80 $switch_time 1
+      if [ "$?" == "0" ]; then
+        result=1
+      else
+        result=2
+      fi
     fi
-  fi
-  return 0
+    sleep 1
+  done
+  return $result
 }
 
 test_proxy() {
