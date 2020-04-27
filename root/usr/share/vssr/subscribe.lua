@@ -209,6 +209,35 @@ local function processData(szType, content)
         end
         result.encrypt_method_ss = method
         result.password = password
+        
+    elseif szType == "trojan" then
+        local idx_sp = 0
+        local alias = ""
+        if content:find("#") then
+            idx_sp = content:find("#")
+            alias = content:sub(idx_sp + 1, -1)
+        end
+        local info = content:sub(1, idx_sp - 1)
+        local hostInfo = split(info, "@")
+        local host = split(hostInfo[2], ":")
+        local password = hostInfo[1]
+        result.alias = UrlDecode(alias)
+        result.type = "trojan"
+        result.server = host[1]
+        if host[2]:find("?") then
+            local query = split(host[2], "?")
+            result.server_port = query[1]
+            local params = {}
+            for _, v in pairs(split(query[2], '&')) do
+                local t = split(v, '=')
+                if t[1] == 'peer' then
+                    result.peer = t[2]
+                end
+            end
+        else
+            result.server_port = host[2]
+        end
+        result.password = password
     elseif szType == "ssd" then
         result.type = "ss"
         result.server = content.server

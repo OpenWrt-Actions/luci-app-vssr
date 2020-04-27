@@ -317,7 +317,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE.md
 
 .cbi-section-table-row {
     position: relative;
-    background: #edf3f8;
+    background-color: #edf3f8;
     margin: 10px !important;
     padding: 8px 15px 8px 70px;
     box-shadow: 0 0 5px 0 rgba(136, 152, 170, .75);
@@ -328,7 +328,7 @@ https://github.com/pure-css/pure/blob/master/LICENSE.md
     line-height: 1.7em;
     overflow: hidden;
     letter-spacing: normal;
-    transition: all 0.2s;
+    
 }
 .cbi-section-table-row:hover{
     background: #fff;

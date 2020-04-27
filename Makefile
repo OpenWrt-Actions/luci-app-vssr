@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-vssr
-PKG_VERSION:=1.08
-PKG_RELEASE:=20200310-1
+PKG_VERSION:=1.09
+PKG_RELEASE:=20200427-1
 
 PKG_CONFIG_DEPENDS:= CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_V2ray \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Server \
@@ -50,8 +50,12 @@ define Build/Compile
 endef
 
 define Package/luci-app-vssr/conffiles
-/etc/ssr_ip
-/etc/dnsmasq.ssr/gfw_list.conf
+	/etc/ssr_ip
+	/etc/dnsmasq.ssr/gfw_list.conf
+	/etc/china_ssr.txt
+	/etc/dnsmasq.ssr/gfw_list.conf
+	/etc/dnsmasq.ssr/gfw_base.conf
+	/etc/dnsmasq.oversea/oversea_list.conf
 endef
 
 define Package/luci-app-vssr/install
