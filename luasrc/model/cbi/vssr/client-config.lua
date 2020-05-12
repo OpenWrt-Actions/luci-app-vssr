@@ -105,6 +105,11 @@ o:depends("type", "ssr")
 o:depends("type", "ss")
 o:depends("type", "trojan")
 
+o = s:option(Value, "peer", translate("Peer"))
+o.datatype = "host"
+o.rmempty = true
+o:depends("type", "trojan")
+
 o = s:option(ListValue, "encrypt_method", translate("Encrypt Method"))
 for _, v in ipairs(encrypt_methods) do o:value(v) end
 o.rmempty = true
