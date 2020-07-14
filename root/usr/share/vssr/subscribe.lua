@@ -232,6 +232,7 @@ local function processData(szType, content)
                 local t = split(v, '=')
                 if t[1] == 'peer' then
                     result.peer = t[2]
+                    result.tls = "1"
                 end
             end
         else

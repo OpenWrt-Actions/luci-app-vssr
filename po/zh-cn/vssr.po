@@ -644,3 +644,6 @@ msgstr "开启广告屏蔽"
 
 msgid "Licence"
 msgstr "许可"
+
+msgid "Area"
+msgstr "区域"

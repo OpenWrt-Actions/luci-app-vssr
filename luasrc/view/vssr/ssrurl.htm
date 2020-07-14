@@ -50,7 +50,11 @@
         l = (4 - l % 4) % 4;
         if (l)
             str = padright(str, l, "=");
-        return atob(str);
+        try {
+            return atob(str);
+        }catch(err) {
+            return str;
+        }
     }
     function dictvalue(d, key) {
         var v = d[key];
@@ -167,12 +171,27 @@
             el('.type').value = "trojan";
             el('.type').dispatchEvent(event);
             var team = sstr.split('@');
-            console.log(param);
+            console.log(team);
             var part1 = team[0].split(':');
             var part2 = team[1].split(':');
+            var others = part2[1].split('?');
+            var queryParam = {}
+			if(others.length > 1) {
+				var queryParams = others[1]
+				var queryArray = queryParams.split('&')
+				for (i = 0; i < queryArray.length; i++) {
+					var params = queryArray[i].split('=');
+					queryParam[decodeURIComponent(params[0])] = decodeURIComponent(params[1] || '');
+				}
+			}
             el('.server').value = part2[0];
-            el('.server_port').value = part2[1];
+            el('.server_port').value = others[0];
             el('.password').value = part1[1];
+            if(queryParam.peer || queryParam.sni){
+                el('.tls').checked = true;
+                el('.peer').value = queryParam.peer || queryParam.sni;
+            }
+            
             if (param != undefined) {
                 rema = decodeURI(param)
                 el('.alias').value = decodeURI(param);
