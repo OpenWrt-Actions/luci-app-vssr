@@ -101,7 +101,7 @@ local tw_video_rule = {
     type = "field",
     domain = {
         "vidol.tv", "hinet.net", "books.com", "litv.tv", "pstatic.net",
-        "app-measurement.com", "kktv.com.tw", "gamer.com.tw"
+        "app-measurement.com", "kktv.com.tw", "gamer.com.tw","wetv.vip"
     },
     outboundTag = "twvideo"
 }
