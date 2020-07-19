@@ -13,13 +13,12 @@ A new SSR SS V2ray Trojan luci app bese luci-app-ssr-plus
 稳定性的差异来自于你固件的内核，还有ss ssr v2ray 这几个核心插件的稳定性，当然你的节点才是影响稳定性的最大因素。  
 Luci 能决定的只有操作起来是否便利、顺手，还有对几个核心应用功能的适配挖掘而已。
 
-### Update Log 2020-07-14  
+### Update Log 2020-07-19  
 
 #### Updates
 
-- UPD: 修复了trojan链接无法导入的问题
-- UPD: 修改部分中文翻译
-- UPD: 更新了域名和ip名单
+- UPD: 弃用curl 改用 wget 来获取远端ip
+- UPD: 修复了不能自动更新gfw list的问题
 
 详情见[具体日志](./relnotes.txt)。 
 
