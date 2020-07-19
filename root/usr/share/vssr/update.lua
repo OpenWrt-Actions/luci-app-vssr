@@ -22,7 +22,7 @@ if nixio.fs.access("/usr/bin/wget-ssl") then
 	end
 	sret=luci.sys.call(refresh_cmd .. " 2>/dev/null")
 	if sret== 0 then
-	luci.sys.call("/usr/bin/ssr-gfw")
+	luci.sys.call("/usr/bin/vssr-gfw")
 	icount = luci.sys.exec("cat /tmp/gfwnew.txt | wc -l")
 	if tonumber(icount)>1000 then
 	oldcount=luci.sys.exec("cat /etc/dnsmasq.ssr/gfw_list.conf | wc -l")

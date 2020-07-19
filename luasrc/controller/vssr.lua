@@ -341,7 +341,7 @@ function check_ip()
     local d = {}
     local mm = require 'maxminddb'
     local db = mm.open('/usr/share/vssr/GeoLite2-Country.mmdb')
-    local ip = string.gsub(luci.sys.exec("curl -s https://api.ip.sb/ip"), "\n", "")
+    local ip = string.gsub(luci.sys.exec("content=`wget --no-check-certificate -q -O - https://api.ip.sb/ip`;echo $content"), "\n", "")
     local res = db:lookup(ip)
     d.flag = string.lower(res:get("country", "iso_code"))
     d.country = res:get("country", "names", "zh-CN")
