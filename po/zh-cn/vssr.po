@@ -649,4 +649,4 @@ msgid "Licence"
 msgstr "许可"
 
 msgid "Area"
-msgstr "区域"
+msgstr "国家或地区"
