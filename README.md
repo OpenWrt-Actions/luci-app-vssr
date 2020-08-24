@@ -13,12 +13,11 @@ A new SSR SS V2ray Trojan luci app bese luci-app-ssr-plus
 稳定性的差异来自于你固件的内核，还有ss ssr v2ray 这几个核心插件的稳定性，当然你的节点才是影响稳定性的最大因素。  
 Luci 能决定的只有操作起来是否便利、顺手，还有对几个核心应用功能的适配挖掘而已。
 
-### Update Log 2020-08-23  v1.13
+### Update Log 2020-08-24  v1.14
 
 #### Updates
 
-- UPD: 扩展分流功能，现在分流可以随意组合。
-- UPD: 将Shadowsocks更新为原始版本，放弃通过v2ray来运行，支持simple-obfs和v2ray-plugin(老版本升级需要自行安装依赖 shadowsocks-libev-ss-local shadowsocks-libev-ss-redir 软件包内有，还有simple-obfs 和 v2ray-plugin 需要自行编译)。
+- UPD: 增加一个自定义分流的选项，可在访问控制中定义自己需要分流的域名(只限于被墙或者非cn ip域名)。
 
 详情见[具体日志](./relnotes.txt)。 
 
