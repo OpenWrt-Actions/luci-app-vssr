@@ -13,12 +13,11 @@ A new SSR SS V2ray Trojan luci app bese luci-app-ssr-plus
 稳定性的差异来自于你固件的内核，还有ss ssr v2ray 这几个核心插件的稳定性，当然你的节点才是影响稳定性的最大因素。  
 Luci 能决定的只有操作起来是否便利、顺手，还有对几个核心应用功能的适配挖掘而已。
 
-### Update Log 2020-08-27  v1.17
+### Update Log 2020-08-30  v1.17-1
 
 #### Updates
 
-- FIX: 修复了在节点列表页面，应用分流服务器会导致其他分流服务器失效的问题。
-- UPD: 增加了更多的节点旗帜匹配规则。
+- FIX: 修复台台湾视频分流不起作用的问题。
 
 详情见[具体日志](./relnotes.txt)。 
 
