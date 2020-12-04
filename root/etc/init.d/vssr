@@ -274,16 +274,10 @@ find_bin() {
     ssr) ret="/usr/bin/ssr-redir" ;;
     ssr-local) ret="/usr/bin/ssr-local" ;;
     ssr-server) ret="/usr/bin/ssr-server" ;;
-    v2ray) 
+    v2ray | vless) 
         ret="/usr/bin/v2ray/v2ray" && [ ! -f "$ret" ] && ret="/usr/bin/v2ray" 
         if [ $is_xray = "1" ]; then
-            ret="/usr/bin/xray"
-        fi
-        ;;
-    vless) 
-        ret="/usr/bin/v2ray/v2ray" && [ ! -f "$ret" ] && ret="/usr/bin/v2ray" 
-        if [ $is_xray = "1" ]; then
-            ret="/usr/bin/xray"
+            ret="/usr/bin/xray" && [ ! -f "$ret" ] && ret="/usr/bin/xray/xray" 
         fi
         ;;
     trojan) ret="/usr/sbin/trojan" ;;
