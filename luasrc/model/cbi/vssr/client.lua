@@ -77,7 +77,7 @@ for _, key in pairs(server_table) do
     o:value(key.name, key.gname)
 end
 if nixio.fs.access('/usr/bin/xray') or nixio.fs.access('/usr/bin/xray/xray') then
-    o = s:option(Flag, 'use_xray', translate('Use Xray instead V2ray'))
+    o = s:option(Flag, 'use_xray', translate('Use Xray instead of V2ray'))
     o.rmempty = false
 end
 
