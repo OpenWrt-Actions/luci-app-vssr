@@ -58,7 +58,7 @@ o.remove = function(self, section, value)
 end
 
 --Diseny proxy
-s:tab('diseny', translate('Diseny+ Domain'))
+s:tab('diseny', translate('Disney+ Domain'))
 local disenyconf = '/etc/vssr/diseny_domain.list'
 o = s:taboption('diseny', TextValue, 'disenyconf')
 o.rows = 13
