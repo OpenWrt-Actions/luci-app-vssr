@@ -61,7 +61,7 @@ local route_label = {
 }
 
 -- [[ Global Setting ]]--
-s = m:section(TypedSection, 'global', translate('Basic Settings [SS|SSR|V2ray|Trojan]'))
+s = m:section(TypedSection, 'global', translate('Basic Settings [SS|SSR|V2ray|Xray|Trojan]'))
 s.anonymous = true
 
 o = s:option(ListValue, 'global_server', translate('Main Server'))
