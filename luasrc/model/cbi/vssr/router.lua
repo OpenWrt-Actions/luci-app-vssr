@@ -58,20 +58,20 @@ o.remove = function(self, section, value)
 end
 
 --Diseny proxy
-s:tab('diseny', translate('Disney+ Domain'))
-local disenyconf = '/etc/vssr/diseny_domain.list'
-o = s:taboption('diseny', TextValue, 'disenyconf')
+s:tab('disney', translate('Disney+ Domain'))
+local disneyconf = '/etc/vssr/disney_domain.list'
+o = s:taboption('disney', TextValue, 'disneyconf')
 o.rows = 13
 o.wrap = 'off'
 o.rmempty = true
 o.cfgvalue = function(self, section)
-    return NXFS.readfile(disenyconf) or ' '
+    return NXFS.readfile(disneyconf) or ' '
 end
 o.write = function(self, section, value)
-    NXFS.writefile(disenyconf, value:gsub('\r\n', '\n'))
+    NXFS.writefile(disneyconf, value:gsub('\r\n', '\n'))
 end
 o.remove = function(self, section, value)
-    NXFS.writefile(disenyconf, '')
+    NXFS.writefile(disneyconf, '')
 end
 
 --prime proxy
