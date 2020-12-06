@@ -40,6 +40,7 @@ function index()
     entry({'admin', 'services', 'vssr', 'flag'}, call('get_flag')) -- 获取节点国旗 iso code
     entry({'admin', 'services', 'vssr', 'ip'}, call('check_ip')) -- 获取ip情况
     entry({'admin', 'services', 'vssr', 'switch'}, call('switch')) -- 设置节点为自动切换
+    entry({'admin', 'services', 'vssr', 'delnode'}, call('del_node')) -- 删除某个节点
 end
 
 -- 执行订阅
@@ -85,6 +86,23 @@ function get_servers()
     )
     luci.http.prepare_content('application/json')
     luci.http.write_json(server_table)
+end
+
+-- 删除指定节点
+function del_node()
+    local e = {}
+    local uci = luci.model.uci.cursor()
+    local node = luci.http.formvalue('node')
+    e.status = false
+    e.node = node
+    if node ~= '' then
+        uci:delete('vssr', node)
+        uci:save('vssr')
+        uci:commit('vssr')
+        e.status = true
+    end
+    luci.http.prepare_content('application/json')
+    luci.http.write_json(e)
 end
 
 -- 切换节点
@@ -247,7 +265,7 @@ function refresh_data()
             retstring = '-1'
         end
     elseif set == 'ip_data' then
-        refresh_cmd = "wget -O- 'https://ispip.clang.cn/all_cn.txt' > /tmp/china_ssr.txt"
+        refresh_cmd ="wget -O- 'https://ispip.clang.cn/all_cn.txt' > /tmp/china_ssr.txt 2>/dev/null"
         sret = luci.sys.call(refresh_cmd)
         icount = luci.sys.exec('cat /tmp/china_ssr.txt | wc -l')
         if sret == 0 and tonumber(icount) > 1000 then
