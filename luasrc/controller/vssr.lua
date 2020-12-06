@@ -13,10 +13,11 @@ function index()
         entry({'admin', 'services', 'vssr', 'servers'}, cbi('vssr/servers'), _('Severs Nodes'), 11).leaf = true -- 服务器节点
         entry({'admin', 'services', 'vssr', 'servers'}, arcombine(cbi('vssr/servers'), cbi('vssr/client-config')), _('Severs Nodes'), 11).leaf = true -- 编辑节点
         entry({'admin', 'services', 'vssr', 'control'}, cbi('vssr/control'), _('Access Control'), 12).leaf = true -- 访问控制
-        if nixio.fs.access('/usr/bin/v2ray/v2ray') then
-            entry({'admin', 'services', 'vssr', 'socks5'}, cbi('vssr/socks5'), _('Socks5'), 13).leaf = true -- Socks5代理
+        entry({'admin', 'services', 'vssr', 'router'}, cbi('vssr/router'), _('Router Config'), 13).leaf = true -- 访问控制
+        if nixio.fs.access('/usr/bin/v2ray/v2ray') or nixio.fs.access('/usr/bin/v2ray') or nixio.fs.access('/usr/bin/xray') or nixio.fs.access('/usr/bin/xray/xray') then
+            entry({'admin', 'services', 'vssr', 'socks5'}, cbi('vssr/socks5'), _('Socks5'), 14).leaf = true -- Socks5代理
         end
-        entry({'admin', 'services', 'vssr', 'advanced'}, cbi('vssr/advanced'), _('Advanced Settings'), 14).leaf = true -- 高级设置
+        entry({'admin', 'services', 'vssr', 'advanced'}, cbi('vssr/advanced'), _('Advanced Settings'), 15).leaf = true -- 高级设置
     elseif nixio.fs.access('/usr/bin/ssr-server') then
         entry({'admin', 'services', 'vssr'}, alias('admin', 'services', 'vssr', 'server'), _('vssr'), 10).dependent = true
     else
