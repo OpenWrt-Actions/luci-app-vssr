@@ -389,8 +389,8 @@ msgstr "通过代理更新"
 msgid "GFW List"
 msgstr "GFW列表"
 
-msgid "Basic Settings [SS|SSR|V2ray|Xray|Trojan]"
-msgstr "基本设置 [SS|SSR|V2ray|Xray|Trojan]"
+msgid "Basic Settings [SS|SSR|Xray|Trojan]"
+msgstr "基本设置 [SS|SSR|Xray|Trojan]"
 
 msgid "Main Server"
 msgstr "主服务器"
