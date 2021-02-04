@@ -62,7 +62,7 @@ find_bin() {
     ssr) ret="ssr-redir" ;;
     ssr-local) ret="ssr-local" ;;
     ssr-server) ret="ssr-server" ;;
-    v2ray | vless) ret="xray-core" ;;
+    v2ray | vless) ret="xray" ;;
     trojan) ret="trojan" ;;
     esac
     echo $(find /usr -perm /+x -type f -name $ret)
